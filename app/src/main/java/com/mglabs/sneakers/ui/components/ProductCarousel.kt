@@ -93,7 +93,7 @@ fun ProductCard(
     val cardModifier = Modifier.fillMaxWidth()
     val imageModifier = Modifier
         .rotate(330f)
-        .scale(2.4f)
+        .scale(2.2f)
 
     Card(
         onClick = {},

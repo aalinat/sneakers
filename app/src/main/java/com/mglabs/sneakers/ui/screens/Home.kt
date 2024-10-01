@@ -74,7 +74,7 @@ fun HomePage() {
                     scrollCoroutineScope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage.inc())
                     }
-                }, enabled = pagerState.currentPage != pagerState.pageCount) {
+                }, enabled = pagerState.currentPage != pagerState.pageCount - 1) {
                     Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "")
                 }
             }
