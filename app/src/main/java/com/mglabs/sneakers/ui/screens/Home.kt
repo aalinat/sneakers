@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePage() {
-    val products = (1..10).map {
+    val products = (1..5).map {
         Product(
             "Air Zoom Pegasus 41 $it",
             painterResource(R.drawable.air_zoom_pegasus_41),

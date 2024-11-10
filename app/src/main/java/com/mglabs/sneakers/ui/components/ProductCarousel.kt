@@ -43,6 +43,18 @@ import androidx.compose.ui.unit.dp
 import com.mglabs.sneakers.domain.models.Product
 
 
+val textModifier = Modifier.padding(top = 60.dp)
+val cardModifier = Modifier.fillMaxWidth()
+val imageModifier = Modifier
+    .rotate(330f)
+    .scale(2.2f)
+val cardColors: CardColors = CardColors(
+    contentColor = Color.Transparent,
+    containerColor = Color.Transparent,
+    disabledContentColor = Color.Transparent,
+    disabledContainerColor = Color.Transparent
+)
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductCollection(
@@ -73,7 +85,7 @@ fun ProductCollection(
             flingBehavior = flingBehavior,
             pageSpacing = 18.dp,
         ) { pageIndex ->
-            ProductCard(listOfItems[pageIndex])
+            ProductDetails(listOfItems[pageIndex])
         }
     }
 }
@@ -82,23 +94,55 @@ fun ProductCollection(
 @Composable
 fun ProductCard(
     product: Product,
-    cardColors: CardColors = CardColors(
-        contentColor = MaterialTheme.colorScheme.primary,
-        containerColor = Color.Transparent,
-        disabledContentColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent
-    )
 ) {
-    val textModifier = Modifier.padding(top = 60.dp)
-    val cardModifier = Modifier.fillMaxWidth()
-    val imageModifier = Modifier
-        .rotate(330f)
-        .scale(2.2f)
+    Card(
+        onClick = {},
+        modifier = cardModifier,
+        colors = cardColors.copy(contentColor = MaterialTheme.colorScheme.primary)
+    ) {
+        Image(
+            modifier = imageModifier
+                .weight(1f)
+                .align(Alignment.CenterHorizontally),
+            painter = product.image,
+            contentDescription = ""
+        )
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = product.name,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    style = MaterialTheme.typography.bodyLarge,
+                    text = product.price,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(10.dp))
+        FilterColor("Color", Color.Cyan, product.colors)
+        Spacer(modifier = Modifier.padding(10.dp))
+        ProductCardFooter()
+    }
+}
+
+@Composable
+fun ProductDetails(
+    product: Product
+) {
 
     Card(
         onClick = {},
         modifier = cardModifier,
-        colors = cardColors
+        colors = cardColors.copy(contentColor = MaterialTheme.colorScheme.primary)
     ) {
         Image(
             modifier = imageModifier
@@ -117,7 +161,7 @@ fun ProductCard(
         Spacer(modifier = Modifier.padding(10.dp))
         FilterColor("Color", Color.Cyan, product.colors)
         DottedSeparator()
-        CTA(product)
+        ProductDetailsFooter(product)
     }
 }
 
@@ -127,7 +171,11 @@ fun DottedSeparator() {
         modifier = Modifier.padding(10.dp)
     )
     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-    Canvas(Modifier.fillMaxWidth().height(3.dp)) {
+    Canvas(
+        Modifier
+            .fillMaxWidth()
+            .height(3.dp)
+    ) {
 
         drawLine(
             color = Color.Gray,
@@ -142,7 +190,7 @@ fun DottedSeparator() {
 }
 
 @Composable
-fun CTA(product: Product) {
+fun ProductDetailsFooter(product: Product) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -155,6 +203,24 @@ fun CTA(product: Product) {
             Text(text = product.price, style = MaterialTheme.typography.titleLarge)
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "Buy Now")
+            }
+        }
+    }
+}
+
+@Composable
+fun ProductCardFooter() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Add To Cart")
             }
         }
     }
